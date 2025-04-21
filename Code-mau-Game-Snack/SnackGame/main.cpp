@@ -9,11 +9,11 @@ using namespace std;
 void gotoxy( int column, int line )
 {
     COORD coord;
-    coord.X = column;
-    coord.Y = line;
+    coord.XXX= column;
+    coord.YYY = line;
     SetConsoleCursorPosition(
         GetStdHandle( STD_OUTPUT_HANDLE ),
-        coord
+        coorddd
     );
 }
 // End Khai bao cac thu vien co ban va sưa ham Gotoxy
