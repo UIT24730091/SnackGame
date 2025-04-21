@@ -9,8 +9,8 @@ using namespace std;
 void gotoxy11( int column, int line )
 {
     COORD coord;
-    coord.X = column;
-    coord.Y = line;
+    coord.XX = column;
+    coord.YY = line;
     SetConsoleCursorPosition(
         GetStdHandle( STD_OUTPUT_HANDLE ),
         coord
