@@ -46,26 +46,7 @@ public:
 
     }
 };
-//DrawBoard
-void DrawBoard(int width, int height)
-{
-    for (int i = 0; i < width; ++i)
-    {
-        gotoxy(i, 0);
-        cout << "=";
-        gotoxy(i, height - 1);
-        cout << "=";
-    }
-    for (int i = 0; i < height; ++i)
-    {
-        gotoxy(0, i);
-        cout << "=";
-        gotoxy(width - 1, i);
-        cout << "=";
-    }
-}
 
-//End DrawBoad
 int main()
 {
     CONRAN r;
