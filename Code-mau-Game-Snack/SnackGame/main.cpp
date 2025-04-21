@@ -17,14 +17,11 @@ void gotoxy( int column, int line )
     );
 }
 // End Khai bao cac thu vien co ban va sưa ham Gotoxy
- void Draw()
-    {
-        for (int i = 0; i < length; i++)
-        {
-            gotoxy(body[i].x, body[i].y);
-            cout << "X";
-        }
-    }
+struct Point
+{
+    int x, y, s;
+};
+
  SnakeClass
 
 //Snake Class
