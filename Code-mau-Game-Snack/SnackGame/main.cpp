@@ -17,8 +17,9 @@ void gotoxy( int column, int line )
     );
 }
 // End Khai bao cac thu vien co ban va sưa ham Gotoxy
-struct Point{
-    int x,y;
+struct Point
+{
+    int x, y;
 };
 class CONRAN{
 public:
