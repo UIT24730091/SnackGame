@@ -2,8 +2,21 @@
 #include <windows.h>
 #include <cstdlib>
 #include <conio.h>
+#include <ctime>
 using namespace std;
-void gotoxy( int column, int line );
+
+
+void gotoxy( int column, int line )
+{
+    COORD coord;
+    coord.X = column;
+    coord.Y = line;
+    SetConsoleCursorPosition(
+        GetStdHandle( STD_OUTPUT_HANDLE ),
+        coord
+    );
+}
+// Khai bao cac thu vien co ban va sưa ham Gotoxy
 struct Point{
     int x,y;
 };
