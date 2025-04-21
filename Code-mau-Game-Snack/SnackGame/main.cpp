@@ -23,11 +23,15 @@ struct Point
     int x, y;
 };
 // End Chinh sua Struct Point
+ SnakeClass
 
 //Snake Class
 class Snake
 {
 // Bổ sung nội dung tại đây
+
+class CONRAN{
+main
 public:
     Point body[100];
     int length;
