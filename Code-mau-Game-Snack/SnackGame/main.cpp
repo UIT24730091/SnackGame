@@ -20,7 +20,7 @@ void gotoxy( int column, int line )
 // Chinh sua Struct Point
 struct Point
 {
-    int x, y
+    int x, y;
 };
 // End Chinh sua Struct Point
 class CONRAN{
