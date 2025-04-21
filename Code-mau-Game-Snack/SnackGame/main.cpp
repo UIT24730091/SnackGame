@@ -22,6 +22,7 @@ struct Point
 {
     int x, y;
 };
+
 //Snake Class
 class Snake
 {
