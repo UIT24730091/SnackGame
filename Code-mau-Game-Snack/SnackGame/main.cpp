@@ -17,12 +17,12 @@ void gotoxy( int column, int line )
     );
 }
 // End Khai bao cac thu vien co ban va sưa ham Gotoxy
+// Chinh sua Struct Point
 struct Point
 {
     int x, y;
 };
-class CONRAN{
-public:
+// End Chinh sua Struct Point
     struct Point A[100];
     int DoDai;
     CONRAN(){
