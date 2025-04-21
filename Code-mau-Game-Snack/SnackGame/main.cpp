@@ -6,7 +6,7 @@
 using namespace std;
 
 // Khai bao cac thu vien co ban va sưa ham Gotoxy
-void gotoxy( int column, int line )
+void gotoxy1( int column, int line )
 {
     COORD coord;
     coord.X = column;
