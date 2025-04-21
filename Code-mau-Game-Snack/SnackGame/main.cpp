@@ -22,7 +22,7 @@ struct Point
 {
     int x, y;
 };
-
+// End Chinh sua Struct Point
 //Snake Class
 class Snake
 {
@@ -30,7 +30,6 @@ class Snake
 
 }
 //End Snake Class
-// End Chinh sua Struct Point
     struct Point A[100];
     int DoDai;
     CONRAN(){
