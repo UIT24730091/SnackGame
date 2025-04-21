@@ -23,10 +23,16 @@ struct Point
     int x, y;
 };
 // End Chinh sua Struct Point
+
 //Snake Class
 class Snake
 {
 // Bổ sung nội dung tại đây
+public:
+    Point body[100];
+    int length;
+    int direction;
+    int prevDirection;
 
 }
 //End Snake Class
