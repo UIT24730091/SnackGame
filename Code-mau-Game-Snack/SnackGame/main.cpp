@@ -22,6 +22,13 @@ struct Point
 {
     int x, y;
 };
+//Snake Class
+class Snake
+{
+// Bổ sung nội dung tại đây
+
+}
+//End Snake Class
 // End Chinh sua Struct Point
     struct Point A[100];
     int DoDai;
