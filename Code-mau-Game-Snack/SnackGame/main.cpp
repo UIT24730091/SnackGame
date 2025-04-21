@@ -6,16 +6,10 @@
 using namespace std;
 
 // Khai bao cac thu vien co ban va sưa ham Gotoxy
-void gotoxy( int column, int line )
-{
-    COORD coord;
-    coord.XXX= column;
-    coord.YYY = line;
-    SetConsoleCursorPosition(
-        GetStdHandle( STD_OUTPUT_HANDLE ),
-        coorddd
-    );
-}
+ Point body[100];
+    int length;
+    int direction;
+    int prevDirection;
 // End Khai bao cac thu vien co ban va sưa ham Gotoxy
 // Chinh sua Struct Point
 struct Point
