@@ -5,7 +5,7 @@
 #include <ctime>
 using namespace std;
 
-
+// Khai bao cac thu vien co ban va sưa ham Gotoxy
 void gotoxy( int column, int line )
 {
     COORD coord;
@@ -16,7 +16,7 @@ void gotoxy( int column, int line )
         coord
     );
 }
-// Khai bao cac thu vien co ban va sưa ham Gotoxy
+// End Khai bao cac thu vien co ban va sưa ham Gotoxy
 struct Point{
     int x,y;
 };
@@ -46,7 +46,26 @@ public:
 
     }
 };
+//DrawBoard
+void DrawBoard(int width, int height)
+{
+    for (int i = 0; i < width; ++i)
+    {
+        gotoxy(i, 0);
+        cout << "=";
+        gotoxy(i, height - 1);
+        cout << "=";
+    }
+    for (int i = 0; i < height; ++i)
+    {
+        gotoxy(0, i);
+        cout << "=";
+        gotoxy(width - 1, i);
+        cout << "=";
+    }
+}
 
+//End DrawBoad
 int main()
 {
     CONRAN r;
@@ -71,13 +90,4 @@ int main()
 }
 
 
-void gotoxy( int column, int line )
-  {
-  COORD coord;
-  coord.X = column;
-  coord.Y = line;
-  SetConsoleCursorPosition(
-    GetStdHandle( STD_OUTPUT_HANDLE ),
-    coord
-    );
-  }
+
