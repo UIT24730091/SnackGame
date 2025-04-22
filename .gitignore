@@ -1,0 +1,11 @@
+# Compiled executables
+*.exe
+
+# Object files
+*.o
+*.obj
+
+# build/
+# bin/
+# Debug/
+# Release/
