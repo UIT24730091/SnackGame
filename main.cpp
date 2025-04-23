@@ -1,21 +1,22 @@
-#include <iostream>
-#include <windows.h> // Cho gotoxy, Sleep, SetConsoleCursorPosition, GetStdHandle
-#include <cstdlib>   // Cho system("cls"), rand, srand
-#include <conio.h>   // Cho kbhit, getch
-#include <ctime>     // Cho time() để khởi tạo seed cho rand
-
+#include <iostream>     // su dung cout de in ra man hinh
+#include <windows.h>    // su dung ham gotoxy va Sleep cua Windows
+#include <cstdlib>      // su dung rand, srand, system
+#include <conio.h>      // su dung _kbhit va _getch
+#include <ctime>        // su dung time de tao ngau nhien
 using namespace std;
 
-// Hàm di chuyển con trỏ console đến vị trí (column, line)
-void gotoxy(int column, int line) {
+// Ham gotoxy de di chuyen con tro den vi tri (column, line) tren console
+void gotoxy( int column, int line )
+{
     COORD coord;
     coord.X = column;
     coord.Y = line;
     SetConsoleCursorPosition(
-        GetStdHandle(STD_OUTPUT_HANDLE),
+        GetStdHandle( STD_OUTPUT_HANDLE ),
         coord
     );
 }
+
 
 // Cấu trúc để lưu trữ tọa độ điểm (x, y)
 struct Point {
