@@ -201,17 +201,31 @@ int main()
         cout << "Score: " << score;
 
         // ket thuc game
-        if (gameOver)
-        {
-            gotoxy(gameWidth / 2 - 8, gameHeight / 2);
-            cout << "Game Over! Score: " << score << endl;
-            gotoxy(gameWidth / 2 - 12, gameHeight / 2 + 1);
-            _getch(); // doi nhan phim truoc khi thoat
+        while (!gameOver) {
+        snake.Move();
+
+        if (snake.CheckCollision(gameWidth, gameHeight)) {
+            gameOver = true;
         }
-        else
-        {
-            Sleep(gameSpeed); // cho 1 khoang thoi gian truoc khi vong lap tiep theo
-        }
+
+        // Cap nhat score o dau do
+        // score = snake.GetScore(); // Neu ban co ham nhu vay
+    }
+
+    // Sau vong lap while hoac ben trong if (gameOver)
+    if (gameOver) {
+        system("cls"); // Xoa man hinh
+        int centerX = gameWidth / 2 - 5;
+        int centerY = gameHeight / 2;
+
+        gotoxy(centerX, centerY);
+        cout << "Game Over!";
+        gotoxy(centerX - 2, centerY + 1);
+        cout << "Score: " << score;
+
+        gotoxy(centerX - 6, centerY + 3);
+        cout << "Press any key to exit...";
+        _getch();
     }
 
     return 0;
