@@ -202,12 +202,32 @@ int main()
 
         // ket thuc game
         while (!gameOver) {
+        // 1. Xu ly input
+        if (_kbhit()) {
+            char key = _getch();
+            snake.Input(key); // Ban can dinh nghia Input(char key) trong lop Snake
+        }
+        // 2. Xoa man hinh
+        system("cls");
+
+        // 3. Ve game (ran, thuc an, tuong...)
+        snake.Draw(gameWidth, gameHeight);  // Ham nay nen ve toan bo trang thai game
+
+        // 4. Di chuyen ran
         snake.Move();
 
+        // 5. Kiem tra va cham
         if (snake.CheckCollision(gameWidth, gameHeight)) {
             gameOver = true;
         }
 
+        // 6. Hien thi điem
+            gotoxy(0, gameHeight + 1);  // In diem duoi khu vuc game
+        cout << "Score: " << snake.GetScore();
+
+        // 7. Tam dung de dieu khien toc đo game
+        Sleep(100); // 100ms ~ 10 khung hinh/giay
+    }
         // Cap nhat score o dau do
         // score = snake.GetScore(); // Neu ban co ham nhu vay
     }
