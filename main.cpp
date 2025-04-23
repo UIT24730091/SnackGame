@@ -18,11 +18,11 @@ void gotoxy( int column, int line )
 }
 
 
-// Cấu trúc để lưu trữ tọa độ điểm (x, y)
-struct Point {
+// Cau truc Point dai dien cho 1 diem tren man hinh voi toa do x, y
+struct Point
+{
     int x, y;
 };
-
 // --- Lớp Snake ---
 class Snake {
 public:
