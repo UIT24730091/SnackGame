@@ -73,10 +73,12 @@ public:
 
     // Tang do dai khi an thuc an
     // Ngoc Long
-    void EatFood()
-    {
-        length++;
-    }
+   Point GenerateFood(int width, int height, const Snake& snake) {
+    Point food;
+    food.x = rand() % (width - 2) + 1;   // từ 1 đến width - 2
+    food.y = rand() % (height - 2) + 1;  // từ 1 đến height - 2
+    return food;
+}
     // End Eat Food
 
     // Kiem tra va cham tuong hoac than ran
