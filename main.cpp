@@ -255,3 +255,18 @@ int main() {
 
     return 0;
 }
+//Hàm khởi tạo (constructor) của lớp Snake 
+Snake()
+{
+    length = 3;
+    direction = 0;        // 0 - sang phải
+    prevDirection = 0;    // cùng hướng với direction
+    body[0].x = 10;
+    body[0].y = 10;
+    body[1].x = 9;
+    body[1].y = 10;
+    body[2].x = 8;
+    body[2].y = 10;
+}
+//End
+
