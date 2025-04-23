@@ -270,3 +270,22 @@ Snake()
 }
 //End
 
+//----Hàm di chuyển-----
+void Move()
+{
+    // Di chuyển thân: mỗi đốt đi theo vị trí đốt trước
+    for (int i = length - 1; i > 0; i--)
+    {
+        body[i] = body[i - 1];
+    }
+
+    // Di chuyển đầu: thay đổi tọa độ theo hướng hiện tại
+    if (direction == 0) body[0].x = body[0].x + 1;  // Sang phải
+    if (direction == 1) body[0].y = body[0].y + 1;  // Xuống
+    if (direction == 2) body[0].x = body[0].x - 1;  // Trái
+    if (direction == 3) body[0].y = body[0].y - 1;  // Lên
+
+    // Cập nhật hướng trước
+    prevDirection = direction;
+}
+//End
