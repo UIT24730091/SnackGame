@@ -101,7 +101,7 @@ public:
 };
 
 // Tao vi tri moi cho thuc an khac vi tri cua ran
-// Food on Snake, Ngoc Long
+// Food on Snake
 Point GenerateFood(int width, int height, const Snake& snake)
 {
     Point food;
