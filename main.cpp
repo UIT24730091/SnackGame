@@ -255,6 +255,15 @@ int main() {
 
     return 0;
 }
+// Hàm sửa đổi định dạng lớp Snake và thêm biến director và predirector
+class Snake
+{
+public:
+    Point body[100];
+    int length;
+    int direction;       // hướng hiện tại
+    int prevDirection;   // hướng trước đó
+
 //Hàm khởi tạo (constructor) của lớp Snake 
 Snake()
 {
@@ -267,7 +276,7 @@ Snake()
     body[1].y = 10;
     body[2].x = 8;
     body[2].y = 10;
-}
+}}
 //End
 
 //----Hàm di chuyển-----
