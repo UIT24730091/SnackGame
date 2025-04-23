@@ -23,13 +23,16 @@ struct Point
 {
     int x, y;
 };
-// --- Lớp Snake ---
-class Snake {
-public:
-    Point body[100];  // Mảng lưu trữ tọa độ các đốt của rắn (kích thước tối đa 100)
-    int length;       // Độ dài hiện tại của rắn
-    int direction;    // Hướng di chuyển hiện tại (0: Phải, 1: Xuống, 2: Trái, 3: Lên)
-    int prevDirection;// Hướng di chuyển trước đó (để dùng cho Turn Prevention)
+  // Ham khoi tao ran
+    Snake()
+    {
+        length = 3;
+        direction = 0;
+        prevDirection = 0;
+        body[0].x = 10; body[0].y = 10;
+        body[1].x = 9;  body[1].y = 10;
+        body[2].x = 8;  body[2].y = 10;
+    }
 
     // Hàm khởi tạo (Constructor)
     Snake() {
