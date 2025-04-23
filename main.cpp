@@ -298,3 +298,13 @@ void Move()
     prevDirection = direction;
 }
 //End
+// Hàm Handle keyboard input
+if (_kbhit()) // kiểm tra nếu có phím được nhấn
+{
+    input = _getch(); // đọc phím nhấn
+
+    if (input == 'a' && snake.prevDirection != 0) snake.direction = 2; // trái (không cho quay ngược phải)
+    if (input == 'w' && snake.prevDirection != 1) snake.direction = 3; // lên (không cho quay ngược xuống)
+    if (input == 'd' && snake.prevDirection != 2) snake.direction = 0; // phải (không cho quay ngược trái)
+    if (input == 's' && snake.prevDirection != 3) snake.direction = 1; // xuống (không cho quay ngược lên)
+}
