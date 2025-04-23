@@ -191,11 +191,26 @@ int main()
         }
 
         // kiem tra va cham
-        if (snake.CheckCollision(gameWidth, gameHeight))
-        {
-            gameOver = true;
-        }
+        bool Snake::CheckCollision(int width, int height) {
+    // Lay vi tri dau ran
+    int headX = body[0].x;
+    int headY = body[0].y;
 
+    // 1. Kiem tra va cham voi tuong
+    if (headX <= 0 || headX >= width - 1 || headY <= 0 || headY >= height - 1) {
+        return true;
+    }
+
+    // 2. Kiem tra va cham voi chinh than ran
+    for (int i = 1; i < length; i++) {
+        if (body[i].x == headX && body[i].y == headY) {
+            return true;
+        }
+    }
+
+    // 3. Khong co va cham
+    return false;
+}
         // hien thi diem
         gotoxy(gameWidth / 2 - 5, gameHeight + 1);
         cout << "Score: " << score;
