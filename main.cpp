@@ -17,13 +17,22 @@ void gotoxy( int column, int line )
     );
 }
 
-
 // Cau truc Point dai dien cho 1 diem tren man hinh voi toa do x, y
 struct Point
 {
     int x, y;
 };
-  // Ham khoi tao ran
+
+// Lop Snake dai dien cho con ran
+class Snake
+{
+public:
+    Point body[100];     // mang luu vi tri cac dot tren than ran
+    int length;          // do dai hien tai cua ran
+    int direction;       // huong di chuyen (0: phai, 1: xuong, 2: trai, 3: len)
+    int prevDirection;   // huong di chuyen truoc do (de tranh quay dau dot ngot)
+
+    // Ham khoi tao ran
     Snake()
     {
         length = 3;
@@ -34,329 +43,174 @@ struct Point
         body[2].x = 8;  body[2].y = 10;
     }
 
-    // Hàm khởi tạo (Constructor)
-    Snake() {
-        length = 3;
-        body[0] = {10, 10};
-        body[1] = {11, 10};
-        body[2] = {12, 10};
-        direction = 2;     // Bắt đầu đi sang Trái
-        prevDirection = 2; // Hướng trước đó cũng là Trái
-    }
-
-    // Phương thức vẽ rắn
-    void Draw() {
-        for (int i = 0; i < length; ++i) {
+    // Ve ran tren man hinh
+    void Draw()
+    {
+        for (int i = 0; i < length; i++)
+        {
             gotoxy(body[i].x, body[i].y);
-            if (i == 0) {
-                cout << "O"; // Đầu rắn
-            } else {
-                cout << "o"; // Thân rắn
-            }
+            cout << "X"; // moi dot tren ran la ky tu 'X'
         }
     }
 
-    // Phương thức di chuyển rắn
-    void Move() {
-        // 1. Cập nhật vị trí các đốt thân (từ đuôi lên gần đầu)
-        for (int i = length - 1; i > 0; --i) {
-             body[i] = body[i - 1];
+    // Di chuyen ran
+    void Move()
+    {
+        // dich than ran (dot sau bang vi tri dot truoc)
+        for (int i = length - 1; i > 0; i--)
+        {
+            body[i] = body[i - 1];
         }
 
-        // 2. Cập nhật vị trí đầu rắn dựa vào direction hiện tại
-        Point head = body[0]; // Lấy vị trí đầu hiện tại (trước khi di chuyển)
-        switch (direction) {
-            case 0: head.x++; break; // Phải
-            case 1: head.y++; break; // Xuống
-            case 2: head.x--; break; // Trái
-            case 3: head.y--; break; // Lên
-        }
-        body[0] = head; // Cập nhật vị trí mới cho đầu rắn
+        // thay doi vi tri dau ran theo huong dang di
+        if (direction == 0) body[0].x = body[0].x + 1;
+        if (direction == 1) body[0].y = body[0].y + 1;
+        if (direction == 2) body[0].x = body[0].x - 1;
+        if (direction == 3) body[0].y = body[0].y - 1;
 
-        // 3. QUAN TRỌNG: Cập nhật prevDirection SAU KHI đã xác định hướng di chuyển cho bước này
-        //    Nó sẽ lưu lại hướng vừa đi (direction) để dùng cho lần kiểm tra input tiếp theo
-        prevDirection = direction;
+        prevDirection = direction; // cap nhat huong cu
     }
 
-    // Phương thức tăng độ dài rắn khi ăn mồi
-    void Grow() {
-        if (length < 100) {
-            length++;
-            // Đốt mới sẽ tự động được đặt đúng vị trí ở lần gọi Move() tiếp theo
-        }
+    // Tang do dai khi an thuc an
+    // Ngoc Long
+    void EatFood()
+    {
+        length++;
     }
+    // End Eat Food
 
-    // Phương thức kiểm tra va chạm (với tường hoặc với thân)
-    bool CheckCollision(int boardWidth, int boardHeight) {
-        Point head = body[0];
-        // 1. Kiểm tra va chạm với tường
-        if (head.x <= 0 || head.x >= boardWidth - 1 || head.y <= 0 || head.y >= boardHeight - 1) {
+    // Kiem tra va cham tuong hoac than ran
+    bool CheckCollision(int width, int height)
+    {
+        // va cham tuong
+        if (body[0].x <= 0 || body[0].x >= width -1 || body[0].y <= 0 || body[0].y >= height -1)
+        {
             return true;
         }
-        // 2. Kiểm tra va chạm với thân
-        for (int i = 1; i < length; ++i) {
-            if (head.x == body[i].x && head.y == body[i].y) {
+
+        // va cham voi than ran
+        for (int i = 1; i < length; i++)
+        {
+            if (body[0].x == body[i].x && body[0].y == body[i].y)
+            {
                 return true;
             }
         }
         return false;
     }
+};
 
-    // --- ĐÂY LÀ CODE CHO ISSUE Turn Prevention ---
-    // Phương thức thay đổi hướng đi, có kiểm tra ngăn quay đầu 180 độ
-    void ChangeDirection(int newDirection) {
-        // Chỉ cập nhật 'direction' nếu hướng mới không phải là hướng ngược lại của 'prevDirection'
-
-        // Muốn đi Phải (0) và hướng trước đó KHÔNG PHẢI là Trái (2)
-        if (newDirection == 0 && prevDirection != 2) {
-            direction = newDirection;
-        }
-        // Muốn đi Xuống (1) và hướng trước đó KHÔNG PHẢI là Lên (3)
-        else if (newDirection == 1 && prevDirection != 3) {
-            direction = newDirection;
-        }
-        // Muốn đi Trái (2) và hướng trước đó KHÔNG PHẢI là Phải (0)
-        else if (newDirection == 2 && prevDirection != 0) {
-            direction = newDirection;
-        }
-        // Muốn đi Lên (3) và hướng trước đó KHÔNG PHẢI là Xuống (1)
-        else if (newDirection == 3 && prevDirection != 1) {
-            direction = newDirection;
-        }
-        // Nếu người chơi nhấn phím quay đầu, 'direction' sẽ không thay đổi.
-    }
-    // --- KẾT THÚC CODE CHO ISSUE Turn Prevention ---
-
-}; // --- Kết thúc lớp Snake ---
-
-
-// --- Hàm vẽ khung trò chơi ---
-void DrawBoard(int width, int height) {
-    for (int i = 0; i < width; ++i) {
-        gotoxy(i, 0); cout << "=";
-        gotoxy(i, height - 1); cout << "=";
-    }
-    for (int i = 0; i < height; ++i) {
-        gotoxy(0, i); cout << "|";
-        gotoxy(width - 1, i); cout << "|";
-    }
-    gotoxy(0, 0); cout << "+";
-    gotoxy(width - 1, 0); cout << "+";
-    gotoxy(0, height - 1); cout << "+";
-    gotoxy(width - 1, height - 1); cout << "+";
-}
-
-// --- Hàm tạo thức ăn cho rắn ---
-Point GenerateFood(int width, int height, const Snake& snake) {
+// Tao vi tri moi cho thuc an khac vi tri cua ran
+// Food on Snake, Ngoc Long
+Point GenerateFood(int width, int height, const Snake& snake)
+{
     Point food;
     bool onSnake;
-    do {
+    do
+    {
+        onSnake = false;
         food.x = rand() % (width - 2) + 1;
         food.y = rand() % (height - 2) + 1;
-        onSnake = false;
-        for (int i = 0; i < snake.length; ++i) {
-            if (food.x == snake.body[i].x && food.y == snake.body[i].y) {
+
+        // dam bao thuc an khong trung vi tri ran
+        for (int i = 0; i < snake.length; ++i)
+        {
+            if (food.x == snake.body[i].x && food.y == snake.body[i].y)
+            {
                 onSnake = true;
                 break;
             }
         }
-    } while (onSnake);
+    }
+    while (onSnake);
     return food;
 }
+// Food on Snake
 
-// --- Hàm vẽ thức ăn ---
-void DrawFood(const Point& food) {
-    gotoxy(food.x, food.y);
-    cout << "*";
+// Ve khung tro choi
+void DrawBoard(int width, int height)
+{
+    for (int i = 0; i < width; ++i)
+    {
+        gotoxy(i, 0); cout << "=";             // vien tren
+        gotoxy(i, height - 1); cout << "=";    // vien duoi
+    }
+    for (int i = 0; i < height; ++i)
+    {
+        gotoxy(0, i); cout << "=";             // vien trai
+        gotoxy(width - 1, i); cout << "=";     // vien phai
+    }
 }
 
-// --- Hàm chính của chương trình ---
-int main() {
-    srand(time(0));
-
-    const int gameWidth = 40;
-    const int gameHeight = 20;
+// Ham chinh
+int main()
+{
+    srand(time(0)); // khoi tao random
+    Snake snake;
+    Point food;
     int score = 0;
+    int gameWidth = 40;
+    int gameHeight = 20;
+    int gameSpeed = 200; // toc do game
+    char input;
     bool gameOver = false;
-    int gameSpeed = 200;
 
-    Snake mySnake;
-    Point food = GenerateFood(gameWidth, gameHeight, mySnake);
+    food = GenerateFood(gameWidth, gameHeight, snake); // tao thuc an ban dau
 
-    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_CURSOR_INFO cursorInfo;
-    GetConsoleCursorInfo(out, &cursorInfo);
-    cursorInfo.bVisible = false;
-    SetConsoleCursorInfo(out, &cursorInfo);
-
-    while (!gameOver) {
-        // 1. Xử lý input từ người dùng
-        if (kbhit()) {
-            char key = getch();
-            // Gọi ChangeDirection thay vì gán trực tiếp direction
-            // Logic kiểm tra quay đầu đã nằm trong ChangeDirection
-            switch (key) {
-                case 'a': case 'A': case 75: // Trái
-                    mySnake.ChangeDirection(2); // <--- Gọi hàm đã sửa
-                    break;
-                case 'd': case 'D': case 77: // Phải
-                    mySnake.ChangeDirection(0); // <--- Gọi hàm đã sửa
-                    break;
-                case 'w': case 'W': case 72: // Lên
-                    mySnake.ChangeDirection(3); // <--- Gọi hàm đã sửa
-                    break;
-                case 's': case 'S': case 80: // Xuống
-                    mySnake.ChangeDirection(1); // <--- Gọi hàm đã sửa
-                    break;
-                case 27: // Esc
-                    gameOver = true;
-                    break;
-            }
+    while (!gameOver)
+    {
+        // xu ly dieu khien
+        if (_kbhit())
+        {
+            input = _getch();
+            if (input == 'a' && snake.prevDirection != 0) snake.direction = 2; // trai
+            if (input == 'w' && snake.prevDirection != 1) snake.direction = 3; // len
+            if (input == 'd' && snake.prevDirection != 2) snake.direction = 0; // phai
+            if (input == 's' && snake.prevDirection != 3) snake.direction = 1; // xuong
         }
 
-        // 2. Cập nhật trạng thái game
-        if (!gameOver) {
-            mySnake.Move(); // Di chuyển rắn (bao gồm cập nhật prevDirection bên trong)
+        system("cls"); // xoa man hinh
+        DrawBoard(gameWidth, gameHeight); // ve khung
 
-            // Kiểm tra ăn mồi
-            Point head = mySnake.body[0];
-            if (head.x == food.x && head.y == food.y) {
-                mySnake.Grow();
-                score += 10;
-                food = GenerateFood(gameWidth, gameHeight, mySnake);
-                // if (gameSpeed > 50) gameSpeed -= 5; // Tùy chọn tăng tốc độ
-            }
+        // ve thuc an
+        gotoxy(food.x, food.y);
+        cout << "*";
 
-            // Kiểm tra va chạm
-            if (mySnake.CheckCollision(gameWidth, gameHeight)) {
-                 gameOver = true;
-            }
+        // ve ran
+        snake.Draw();
+        snake.Move();
+
+        // kiem tra an thuc an
+        if (snake.body[0].x == food.x && snake.body[0].y == food.y)
+        {
+            snake.EatFood();
+            score += 10;
+            food = GenerateFood(gameWidth, gameHeight, snake);
         }
 
-        // 3. Vẽ lại màn hình game
-        system("cls");
-        DrawBoard(gameWidth, gameHeight);
-        mySnake.Draw();
-        DrawFood(food);
-        gotoxy(gameWidth + 2, 2);
+        // kiem tra va cham
+        if (snake.CheckCollision(gameWidth, gameHeight))
+        {
+            gameOver = true;
+        }
+
+        // hien thi diem
+        gotoxy(gameWidth / 2 - 5, gameHeight + 1);
         cout << "Score: " << score;
 
-        // 4. Tạm dừng
-        Sleep(gameSpeed);
-
-    } // --- Kết thúc vòng lặp game ---
-
-    // --- Xử lý khi Game Over ---
-    system("cls");
-    gotoxy(gameWidth / 2 - 5, gameHeight / 2);
-    cout << "GAME OVER!";
-    gotoxy(gameWidth / 2 - 8, gameHeight / 2 + 1);
-    cout << "Your Score: " << score;
-    gotoxy(0, gameHeight);
-
-    cursorInfo.bVisible = true; // Hiện lại con trỏ
-    SetConsoleCursorInfo(out, &cursorInfo);
+        // ket thuc game
+        if (gameOver)
+        {
+            gotoxy(gameWidth / 2 - 8, gameHeight / 2);
+            cout << "Game Over! Score: " << score << endl;
+            gotoxy(gameWidth / 2 - 12, gameHeight / 2 + 1);
+            _getch(); // doi nhan phim truoc khi thoat
+        }
+        else
+        {
+            Sleep(gameSpeed); // cho 1 khoang thoi gian truoc khi vong lap tiep theo
+        }
+    }
 
     return 0;
 }
-// -------Hàm sửa đổi định dạng lớp Snake và thêm biến director và predirector------
-// Lớp Snake
-class Snake
-{
-public:
-    Point body[100];
-    int length;
-    int direction;       // hướng hiện tại
-    int prevDirection;   // hướng trước đó
-
-//-----------Hàm khởi tạo (constructor) của lớp Snake---------
-Snake()
-{
-    length = 3;
-    direction = 0;        // 0 - sang phải
-    prevDirection = 0;    // cùng hướng với direction
-    body[0].x = 10;
-    body[0].y = 10;
-    body[1].x = 9;
-    body[1].y = 10;
-    body[2].x = 8;
-    body[2].y = 10;
-}}
-//End
-
-//----Hàm di chuyển-----
-void Move()
-{
-    // Di chuyển thân: mỗi đốt đi theo vị trí đốt trước
-    for (int i = length - 1; i > 0; i--)
-    {
-        body[i] = body[i - 1];
-    }
-
-    // Di chuyển đầu: thay đổi tọa độ theo hướng hiện tại
-    if (direction == 0) body[0].x = body[0].x + 1;  // Sang phải
-    if (direction == 1) body[0].y = body[0].y + 1;  // Xuống
-    if (direction == 2) body[0].x = body[0].x - 1;  // Trái
-    if (direction == 3) body[0].y = body[0].y - 1;  // Lên
-
-    // Cập nhật hướng trước
-    prevDirection = direction;
-}
-//End
-
-//--------Hàm Move Call In Main----------
-
-while (!gameOver)
-{
-//----------Hàm Handle keyboard input------------
- // 1. Xử lý phím người chơi
-if (_kbhit()) // kiểm tra nếu có phím được nhấn
-{
-    input = _getch(); // đọc phím nhấn
-
-    if (input == 'a' && snake.prevDirection != 0) snake.direction = 2; // trái (không cho quay ngược phải)
-    if (input == 'w' && snake.prevDirection != 1) snake.direction = 3; // lên (không cho quay ngược xuống)
-    if (input == 'd' && snake.prevDirection != 2) snake.direction = 0; // phải (không cho quay ngược trái)
-    if (input == 's' && snake.prevDirection != 3) snake.direction = 1; // xuống (không cho quay ngược lên)
-}
-// 2. Xóa màn hình & vẽ lại trạng thái
-    system("cls");
-    DrawBoard(gameWidth, gameHeight);
-
-    gotoxy(food.x, food.y);
-    cout << "*";
-    snake.Draw();
-
-    // 3. Cập nhật vị trí rắn sau khi đã xử lý input và vẽ
-    snake.Move();
- // 4. Kiểm tra ăn thức ăn
-    if (snake.body[0].x == food.x && snake.body[0].y == food.y)
-    {
-        snake.EatFood();
-        score += 10;
-        food = GenerateFood(gameWidth, gameHeight, snake);
-    }
-
-    // 5. Kiểm tra va chạm
-    if (snake.CheckCollision(gameWidth, gameHeight))
-    {
-        gameOver = true;
-    }
-
-    // 6. Hiển thị điểm số
-    gotoxy(gameWidth / 2 - 5, gameHeight + 1);
-    cout << "Score: " << score;
- // 7. Kết thúc hoặc delay khung hình
-    if (gameOver)
-    {
-        gotoxy(gameWidth / 2 - 8, gameHeight / 2);
-        cout << "Game Over! Score: " << score << endl;
-        gotoxy(gameWidth / 2 - 12, gameHeight / 2 + 1);
-        _getch();
-    }
-    else
-    {
-        Sleep(gameSpeed);
-    }
-}
-// -----------End-----------
