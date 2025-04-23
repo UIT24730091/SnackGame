@@ -83,22 +83,24 @@ public:
     bool CheckCollision(int width, int height)
     {
         // va cham tuong
-        if (body[0].x <= 0 || body[0].x >= width -1 || body[0].y <= 0 || body[0].y >= height -1)
-        {
-            return true;
-        }
-
-        // va cham voi than ran
-        for (int i = 1; i < length; i++)
-        {
-            if (body[0].x == body[i].x && body[0].y == body[i].y)
-            {
+         bool CheckWallCollision() const {
+        Point head = GetHead();
+        // Va cham neu dau ra ngoai bien (tru vien)
+        return head.x <= 0 || head.x >= WIDTH - 1 || head.y <= 0 || head.y >= HEIGHT - 1;
+    }
+       // va cham voi than ran
+       bool CheckSelfCollision() const {
+        Point head = GetHead();
+        // Bat đau kiem tra tu đot thu 2 (chi so 1), vi đau luôn trung voi đot 0
+        for (size_t i = 1; i < body.size(); ++i) {
+            if (head == body[i]) {
                 return true;
             }
         }
         return false;
     }
 };
+
 
 // Tao vi tri moi cho thuc an khac vi tri cua ran
 // Food on Snake
