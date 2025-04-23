@@ -255,7 +255,8 @@ int main() {
 
     return 0;
 }
-// Hàm sửa đổi định dạng lớp Snake và thêm biến director và predirector
+// -------Hàm sửa đổi định dạng lớp Snake và thêm biến director và predirector------
+// Lớp Snake
 class Snake
 {
 public:
@@ -264,7 +265,7 @@ public:
     int direction;       // hướng hiện tại
     int prevDirection;   // hướng trước đó
 
-//Hàm khởi tạo (constructor) của lớp Snake 
+//-----------Hàm khởi tạo (constructor) của lớp Snake---------
 Snake()
 {
     length = 3;
@@ -298,7 +299,13 @@ void Move()
     prevDirection = direction;
 }
 //End
-// Hàm Handle keyboard input
+
+//--------Hàm Move Call In Main----------
+
+while (!gameOver)
+{
+//----------Hàm Handle keyboard input------------
+ // 1. Xử lý phím người chơi
 if (_kbhit()) // kiểm tra nếu có phím được nhấn
 {
     input = _getch(); // đọc phím nhấn
@@ -308,3 +315,44 @@ if (_kbhit()) // kiểm tra nếu có phím được nhấn
     if (input == 'd' && snake.prevDirection != 2) snake.direction = 0; // phải (không cho quay ngược trái)
     if (input == 's' && snake.prevDirection != 3) snake.direction = 1; // xuống (không cho quay ngược lên)
 }
+// 2. Xóa màn hình & vẽ lại trạng thái
+    system("cls");
+    DrawBoard(gameWidth, gameHeight);
+
+    gotoxy(food.x, food.y);
+    cout << "*";
+    snake.Draw();
+
+    // 3. Cập nhật vị trí rắn sau khi đã xử lý input và vẽ
+    snake.Move();
+ // 4. Kiểm tra ăn thức ăn
+    if (snake.body[0].x == food.x && snake.body[0].y == food.y)
+    {
+        snake.EatFood();
+        score += 10;
+        food = GenerateFood(gameWidth, gameHeight, snake);
+    }
+
+    // 5. Kiểm tra va chạm
+    if (snake.CheckCollision(gameWidth, gameHeight))
+    {
+        gameOver = true;
+    }
+
+    // 6. Hiển thị điểm số
+    gotoxy(gameWidth / 2 - 5, gameHeight + 1);
+    cout << "Score: " << score;
+ // 7. Kết thúc hoặc delay khung hình
+    if (gameOver)
+    {
+        gotoxy(gameWidth / 2 - 8, gameHeight / 2);
+        cout << "Game Over! Score: " << score << endl;
+        gotoxy(gameWidth / 2 - 12, gameHeight / 2 + 1);
+        _getch();
+    }
+    else
+    {
+        Sleep(gameSpeed);
+    }
+}
+// -----------End-----------
