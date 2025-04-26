@@ -105,7 +105,6 @@ public:
 
 
 // Tao vi tri moi cho thuc an khac vi tri cua ran
-// Food on Snake
 Point GenerateFood(int width, int height, const Snake& snake)
 {
     Point food;
@@ -129,7 +128,6 @@ Point GenerateFood(int width, int height, const Snake& snake)
     while (onSnake);
     return food;
 }
-// Food on Snake
 
 // Ve khung tro choi
 void DrawBoard(int width, int height)
