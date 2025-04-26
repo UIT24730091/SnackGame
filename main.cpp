@@ -6,6 +6,7 @@
 using namespace std;
 
 // Ham gotoxy de di chuyen con tro den vi tri (column, line) tren console
+
 void gotoxy1( int column, int line )
 {
     COORD coord;
@@ -16,6 +17,7 @@ void gotoxy1( int column, int line )
         coord
     );
 }
+
 
 // Cau truc Point dai dien cho 1 diem tren man hinh voi toa do x, y
 struct Point
