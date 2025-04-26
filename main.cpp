@@ -210,7 +210,7 @@ int main()
         // hien thi diem (chỉ khi game chưa kết thúc)
         if (!gameOver)
         {
-             gotoxy(gameWidth / 2 - 5, gameHeight + 1); // Hiển thị điểm dưới khung
+             gotoxy(gameWidth / 2 - 5, gameHeight + 2); // Hiển thị điểm dưới khung, cách 2 dòng
              cout << "Score: " << score;
              Sleep(gameSpeed); // Chỉ tạm dừng khi game đang chạy
         }
