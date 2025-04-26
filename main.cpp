@@ -7,16 +7,16 @@ using namespace std;
 
 // Ham gotoxy de di chuyen con tro den vi tri (column, line) tren console
 
-void gotoxy1( int column, int line )
-{
-    COORD coord;
-    coord.X = column;
-    coord.Y = linee;
-    SetConsoleCursorPosition(
-        GetStdHandle( STD_OUTPUT_HANDLE ),
-        coord
-    );
-}
+class CONRAN{
+public:
+    struct Point A[100];
+    int DoDai;
+    CONRAN(){
+        DoDai = 3;
+        A[0].x = 10; A[0].y = 10;
+        A[1].x = 11; A[1].y = 10;
+        A[2].x = 12; A[2].y = 10;
+    }
 
 
 // Cau truc Point dai dien cho 1 diem tren man hinh voi toa do x, y
