@@ -36,11 +36,11 @@ public:
     Snake()
     {
         length = 3;
-        direction = 0; // Sửa lại hướng ban đầu giống code cuối
-        prevDirection = 0; // Sửa lại hướng ban đầu giống code cuối
+        direction = 0;
+        prevDirection = 0;
         body[0].x = 10; body[0].y = 10;
-        body[1].x = 9;  body[1].y = 10; // Sửa lại vị trí đốt thân giống code cuối
-        body[2].x = 8;  body[2].y = 10; // Sửa lại vị trí đốt thân giống code cuối
+        body[1].x = 9;  body[1].y = 10;
+        body[2].x = 8;  body[2].y = 10;
     }
 
     // Ve ran tren man hinh
