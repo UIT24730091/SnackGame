@@ -180,16 +180,19 @@ int main()
         }
 
         system("cls"); // xoa man hinh
+        
+        // Đảm bảo thứ tự đúng: vẽ khung trước, sau đó vẽ thức ăn và rắn
         DrawBoard(gameWidth, gameHeight); // ve khung
-
+        
         // ve thuc an
         gotoxy(food.x, food.y);
         cout << "*";
-
+        
         // ve ran
         snake.Draw();
-        // di chuyen ran
-        snake.Move(); // Đặt Move sau Draw để thấy hiệu ứng rõ hơn
+        
+        // di chuyen ran (sau khi vẽ)
+        snake.Move();
 
         // kiem tra an thuc an
         if (snake.body[0].x == food.x && snake.body[0].y == food.y)
