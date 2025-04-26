@@ -36,11 +36,11 @@ public:
     Snake()
     {
         length = 3;
-        direction = 0;
-        prevDirection = 0;
+        direction = 0; // Sửa lại hướng ban đầu giống code cuối
+        prevDirection = 0; // Sửa lại hướng ban đầu giống code cuối
         body[0].x = 10; body[0].y = 10;
-        body[1].x = 9;  body[1].y = 10;
-        body[2].x = 8;  body[2].y = 10;
+        body[1].x = 9;  body[1].y = 10; // Sửa lại vị trí đốt thân giống code cuối
+        body[2].x = 8;  body[2].y = 10; // Sửa lại vị trí đốt thân giống code cuối
     }
 
     // Ve ran tren man hinh
@@ -71,41 +71,46 @@ public:
         prevDirection = direction; // cap nhat huong cu
     }
 
+    // ---- FIX: Thêm hàm EatFood vào class (trước đây thiếu định nghĩa) ----
     // Tang do dai khi an thuc an
-    // Ngoc Long
-   Point GenerateFood(int width, int height, const Snake& snake) {
-    Point food;
-    food.x = rand() % (width - 2) + 1;   // từ 1 đến width - 2
-    food.y = rand() % (height - 2) + 1;  // từ 1 đến height - 2
-    return food;
-}
-    // End Eat Food
-
-    // Kiem tra va cham tuong hoac than ran
-    bool CheckCollision(int width, int height)
+    void EatFood()
     {
-        // va cham tuong
-         bool CheckWallCollision() const {
-        Point head = GetHead();
-        // Va cham neu dau ra ngoai bien (tru vien)
-        return head.x <= 0 || head.x >= WIDTH - 1 || head.y <= 0 || head.y >= HEIGHT - 1;
-    }
-       // va cham voi than ran
-       bool CheckSelfCollision() const {
-        Point head = GetHead();
-        // Bat đau kiem tra tu đot thu 2 (chi so 1), vi đau luôn trung voi đot 0
-        for (size_t i = 1; i < body.size(); ++i) {
-            if (head == body[i]) {
-                return true;
-            }
+        if (length < 100) // Thêm kiểm tra giới hạn (tùy chọn nhưng nên có)
+        {
+             length++;
         }
-        return false;
     }
-};
+    // ---- END FIX ----
+
+    // ---- FIX: Khai báo CheckCollision đúng cách, xóa các hàm thừa khỏi class ----
+    // Kiem tra va cham tuong hoac than ran
+    bool CheckCollision(int width, int height); // Chỉ khai báo ở đây
+}; // ---- FIX: Đảm bảo có dấu ; kết thúc class ----
 
 
+// ---- FIX: Định nghĩa CheckCollision bên ngoài lớp Snake ----
+bool Snake::CheckCollision(int width, int height)
+{
+    // va cham tuong
+    if (body[0].x <= 0 || body[0].x >= width -1 || body[0].y <= 0 || body[0].y >= height -1)
+    {
+        return true;
+    }
+
+    // va cham voi than ran
+    for (int i = 1; i < length; i++) // Bắt đầu từ 1 vì đầu không thể tự va vào chính nó
+    {
+        if (body[0].x == body[i].x && body[0].y == body[i].y)
+        {
+            return true;
+        }
+    }
+    return false; // Không có va chạm
+}
+
+
+// ---- FIX: Xóa hàm GenerateFood thừa trong class, chỉ giữ hàm global này ----
 // Tao vi tri moi cho thuc an khac vi tri cua ran
-// Food on Snake
 Point GenerateFood(int width, int height, const Snake& snake)
 {
     Point food;
@@ -129,7 +134,6 @@ Point GenerateFood(int width, int height, const Snake& snake)
     while (onSnake);
     return food;
 }
-// Food on Snake
 
 // Ve khung tro choi
 void DrawBoard(int width, int height)
@@ -161,12 +165,14 @@ int main()
 
     food = GenerateFood(gameWidth, gameHeight, snake); // tao thuc an ban dau
 
+    // ---- FIX: Xóa bỏ vòng lặp while(!gameOver) bị lồng bên trong ----
     while (!gameOver)
     {
         // xu ly dieu khien
-        if (_kbhit())
+        if (_kbhit()) // Sử dụng _kbhit và _getch như code cuối
         {
             input = _getch();
+            // ---- FIX: Logic kiểm tra hướng cũ giống code cuối ----
             if (input == 'a' && snake.prevDirection != 0) snake.direction = 2; // trai
             if (input == 'w' && snake.prevDirection != 1) snake.direction = 3; // len
             if (input == 'd' && snake.prevDirection != 2) snake.direction = 0; // phai
@@ -182,88 +188,44 @@ int main()
 
         // ve ran
         snake.Draw();
-        snake.Move();
+        // di chuyen ran
+        snake.Move(); // Đặt Move sau Draw để thấy hiệu ứng rõ hơn
 
         // kiem tra an thuc an
         if (snake.body[0].x == food.x && snake.body[0].y == food.y)
         {
-            snake.EatFood();
+            snake.EatFood(); // Gọi hàm đã sửa/thêm
             score += 10;
             food = GenerateFood(gameWidth, gameHeight, snake);
         }
 
+        // ---- FIX: Gọi CheckCollision đúng cách, xóa định nghĩa thừa ----
         // kiem tra va cham
-        bool Snake::CheckCollision(int width, int height) {
-    // Lay vi tri dau ran
-    int headX = body[0].x;
-    int headY = body[0].y;
-
-    // 1. Kiem tra va cham voi tuong
-    if (headX <= 0 || headX >= width - 1 || headY <= 0 || headY >= height - 1) {
-        return true;
-    }
-
-    // 2. Kiem tra va cham voi chinh than ran
-    for (int i = 1; i < length; i++) {
-        if (body[i].x == headX && body[i].y == headY) {
-            return true;
-        }
-    }
-
-    // 3. Khong co va cham
-    return false;
-}
-        // hien thi diem
-        gotoxy(gameWidth / 2 - 5, gameHeight + 1);
-        cout << "Score: " << score;
-
-        // ket thuc game
-        while (!gameOver) {
-        // 1. Xu ly input
-        if (_kbhit()) {
-            char key = _getch();
-            snake.Input(key); // Ban can dinh nghia Input(char key) trong lop Snake
-        }
-        // 2. Xoa man hinh
-        system("cls");
-
-        // 3. Ve game (ran, thuc an, tuong...)
-        snake.Draw(gameWidth, gameHeight);  // Ham nay nen ve toan bo trang thai game
-
-        // 4. Di chuyen ran
-        snake.Move();
-
-        // 5. Kiem tra va cham
-        if (snake.CheckCollision(gameWidth, gameHeight)) {
+        if (snake.CheckCollision(gameWidth, gameHeight))
+        {
             gameOver = true;
         }
 
-        // 6. Hien thi điem
-            gotoxy(0, gameHeight + 1);  // In diem duoi khu vuc game
-        cout << "Score: " << snake.GetScore();
+        // ---- FIX: Đặt hiển thị điểm và Sleep/Game Over logic hợp lý ----
+        // hien thi diem (chỉ khi game chưa kết thúc)
+        if (!gameOver)
+        {
+             gotoxy(gameWidth / 2 - 5, gameHeight + 1); // Hiển thị điểm dưới khung
+             cout << "Score: " << score;
+             Sleep(gameSpeed); // Chỉ tạm dừng khi game đang chạy
+        }
+    } // ---- Kết thúc vòng lặp while (!gameOver) chính ----
 
-        // 7. Tam dung de dieu khien toc đo game
-        Sleep(100); // 100ms ~ 10 khung hinh/giay
-    }
-        // Cap nhat score o dau do
-        // score = snake.GetScore(); // Neu ban co ham nhu vay
-    }
-
-    // Sau vong lap while hoac ben trong if (gameOver)
-    if (gameOver) {
-        system("cls"); // Xoa man hinh
-        int centerX = gameWidth / 2 - 5;
-        int centerY = gameHeight / 2;
-
-        gotoxy(centerX, centerY);
-        cout << "Game Over!";
-        gotoxy(centerX - 2, centerY + 1);
-        cout << "Score: " << score;
-
-        gotoxy(centerX - 6, centerY + 3);
-        cout << "Press any key to exit...";
-        _getch();
-    }
+    // ---- FIX: Xử lý Game Over SAU khi vòng lặp chính kết thúc ----
+    // Màn hình Game Over
+    system("cls"); // Xóa màn hình lần cuối
+    gotoxy(gameWidth / 2 - 5, gameHeight / 2);     // Căn giữa tương đối
+    cout << "Game Over!";
+    gotoxy(gameWidth / 2 - 5, gameHeight / 2 + 1);
+    cout << "Score: " << score;
+    gotoxy(gameWidth / 2 - 10, gameHeight / 2 + 3); // Dịch xuống chút
+    cout << "Press any key to exit...";
+    _getch(); // Doi nhan phim bat ky
 
     return 0;
 }
