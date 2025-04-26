@@ -49,7 +49,10 @@ public:
         for (int i = 0; i < length; i++)
         {
             gotoxy(body[i].x, body[i].y);
-            cout << "X"; // moi dot tren ran la ky tu 'X'
+            if (i == 0)
+                cout << "O"; // dau ran la ky tu 'O'
+            else
+                cout << "o"; // than ran la ky tu 'o'
         }
     }
 
