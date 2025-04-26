@@ -7,11 +7,16 @@ using namespace std;
 
 // Ham gotoxy de di chuyen con tro den vi tri (column, line) tren console
 
-void gotoxy( int column, int line );
-struct Point{
-    int x,y;
-};
-
+void gotoxy( int column, int line )
+{
+    COORD coord;
+    coord.X = column;
+    coord.Y = line;
+    SetConsoleCursorPosition(
+        GetStdHandle( STD_OUTPUT_HANDLE ),
+        coord
+    );
+}
 
 // Cau truc Point dai dien cho 1 diem tren man hinh voi toa do x, y
 struct Point
