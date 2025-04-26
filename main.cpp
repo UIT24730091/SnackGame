@@ -26,14 +26,16 @@ struct Point
 };
 
 // Lop Snake dai dien cho con ran
-class Snake
-{
+class CONRAN{
 public:
-    Point body[100];     // mang luu vi tri cac dot tren than ran
-    int length;          // do dai hien tai cua ran
-    int direction;       // huong di chuyen (0: phai, 1: xuong, 2: trai, 3: len)
-    int prevDirection;   // huong di chuyen truoc do (de tranh quay dau dot ngot)
-
+    struct Point A[100];
+    int DoDai;
+    CONRAN(){
+        DoDai = 3;
+        A[0].x = 10; A[0].y = 10;
+        A[1].x = 11; A[1].y = 10;
+        A[2].x = 12; A[2].y = 10;
+    }
     // Ham khoi tao ran
     Snake()
     {
