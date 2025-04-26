@@ -75,7 +75,7 @@ public:
     // Tang do dai khi an thuc an
     void EatFood()
     {
-        if (length < 100) // Thêm kiểm tra giới hạn (tùy chọn nhưng nên có)
+        if (length < 256) // Thêm kiểm tra giới hạn (tùy chọn nhưng nên có)
         {
              length++;
         }
