@@ -159,7 +159,7 @@ int main()
     int score = 0;
     int gameWidth = 40;
     int gameHeight = 20;
-    int gameSpeed = 200; // toc do game
+    int gameSpeed = 300; // Test speed game
     char input;
     bool gameOver = false;
 
